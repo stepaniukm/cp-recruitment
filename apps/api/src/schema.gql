@@ -1,0 +1,13 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Person {
+  id: Int!
+  name: String!
+  mass: Int!
+}
+
+type Query {
+  people: [Person!]!
+}
