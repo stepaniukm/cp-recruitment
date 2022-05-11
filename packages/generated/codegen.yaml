@@ -1,0 +1,8 @@
+schema: ['../../apps/api/src/schema.gql']
+generates:
+  ./types/types.ts:
+    config:
+      useIndexSignature: true
+    plugins:
+      - typescript
+      - typescript-resolvers

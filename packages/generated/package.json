@@ -1,0 +1,19 @@
+{
+  "name": "generated-shared",
+  "version": "0.0.1",
+  "description": "Shared types generated from GraphQL schema",
+  "private": true,
+  "scripts": {
+    "generate": "graphql-codegen"
+  },
+  "types": "./types/types.ts",
+  "keywords": [],
+  "dependencies": {
+    "@graphql-codegen/cli": "^2.6.2",
+    "@graphql-codegen/typed-document-node": "^2.2.11",
+    "@graphql-codegen/typescript": "^2.4.11",
+    "@graphql-codegen/typescript-operations": "^2.4.0",
+    "@graphql-codegen/typescript-resolvers": "^2.6.4",
+    "graphql": "^16.5.0"
+  }
+}

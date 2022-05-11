@@ -2,12 +2,116 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Starship {
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  id: Int!
+  name: String!
+  crew: [PersonWithoutStarship!]!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type StarshipWithoutCrew {
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  id: Int!
+  name: String!
+}
+
 type Person {
+  createdAt: DateTime!
+  updatedAt: DateTime!
   id: Int!
   name: String!
   mass: Int!
+  starshipId: Int
+  starship: StarshipWithoutCrew
+}
+
+type PersonWithoutStarship {
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  id: Int!
+  name: String!
+  mass: Int!
+  starshipId: Int
 }
 
 type Query {
-  people: [Person!]!
+  allPeople(allPeopleInput: AllPeopleInput): [Person!]!
+  person(personInput: PersonInput!): Person!
+  allStarships(allStarshipsInput: AllStarshipsInput): [Starship!]!
+  starship(starshipInput: StarshipInput!): Starship!
+}
+
+input AllPeopleInput {
+  page: Int = 1
+  perPage: Int = 10
+  search: String
+  mass: Float
+}
+
+input PersonInput {
+  search: String
+  id: Int
+}
+
+input AllStarshipsInput {
+  page: Int = 1
+  perPage: Int = 10
+  search: String
+}
+
+input StarshipInput {
+  search: String
+  id: Int
+}
+
+type Mutation {
+  createPerson(createPersonInput: CreatePersonInput!): Person!
+  updatePerson(updatePersonInput: UpdatePersonInput!): Person!
+  deletePerson(deletePersonInput: DeletePersonInput!): Person!
+  createStarship(createStarshipInput: CreateStarshipInput!): Starship!
+  updateStarship(updateStarshipInput: UpdateStarshipInput!): Starship!
+  deleteStarship(deleteStarshipInput: DeleteStarshipInput!): Starship!
+}
+
+input CreatePersonInput {
+  name: String!
+  mass: Int!
+  starshipId: Int
+}
+
+input UpdatePersonInput {
+  name: String
+  mass: Int
+  starshipId: Int
+  id: Int!
+}
+
+input DeletePersonInput {
+  id: Int!
+}
+
+input CreateStarshipInput {
+  name: String!
+  crew: [ConnectInput!]!
+}
+
+input ConnectInput {
+  id: Float!
+}
+
+input UpdateStarshipInput {
+  name: String
+  crew: [ConnectInput!]
+  id: Int!
+}
+
+input DeleteStarshipInput {
+  id: Int!
 }

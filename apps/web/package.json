@@ -9,7 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/client": "^3.6.2",
+    "@types/lodash": "^4.14.182",
     "eslint-config-next": "^12.1.6",
+    "generated-shared": "0.0.1",
+    "graphql": "^16.5.0",
+    "lodash": "^4.17.21",
     "next": "^12.1.6",
     "react": "^18.1.0",
     "react-dom": "^18.1.0"

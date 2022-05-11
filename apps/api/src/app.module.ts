@@ -6,11 +6,13 @@ import { join } from 'node:path';
 import { dbProvider, DB_KEY } from './db';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
+import { StarshipsModule } from './starships/starships.module';
 
 @Global()
 @Module({
   imports: [
     ConfigModule.forRoot({
+      isGlobal: true,
       validationSchema: Joi.object({
         DATABASE_URL: Joi.string().required(),
         NODE_ENV: Joi.string()
@@ -25,6 +27,7 @@ import * as Joi from 'joi';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),
     PeopleModule,
+    StarshipsModule,
   ],
   controllers: [],
   providers: [dbProvider],

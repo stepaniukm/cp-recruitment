@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -15,19 +16,19 @@ model Person {
   name     String
   mass     Int
 
-  starship Starship @relation(fields: [starshipId], references: [id])
-  starshipId Int
+  starship Starship? @relation(fields: [starshipId], references: [id])
+  starshipId Int?
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Starship {
   id       Int @id @default(autoincrement())
-  name     String
+  name     String @unique
 
   crew     Person[]
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

@@ -10,5 +10,3 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: cp
     restart: always
-    volumes:
-      - ./data/postgres:/var/lib/postgresql
