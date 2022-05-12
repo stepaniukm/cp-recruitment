@@ -16,6 +16,7 @@ export type Scalars = {
 	Int: number;
 	Float: number;
 	/** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
+	DateTime: any;
 };
 
 export type AllPeopleInput = {
@@ -185,6 +186,51 @@ export type AllPeopleQuery = {
 		starship?: { __typename?: 'StarshipWithoutCrew'; id: number; name: string } | null;
 	}>;
 };
+
+export const AllPeopleDocument = gql`
+	query AllPeople {
+		allPeople {
+			id
+			name
+			mass
+			starship {
+				id
+				name
+			}
+		}
+	}
+`;
+
+/**
+ * __useAllPeopleQuery__
+ *
+ * To run a query within a React component, call `useAllPeopleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllPeopleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAllPeopleQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAllPeopleQuery(
+	baseOptions?: Apollo.QueryHookOptions<AllPeopleQuery, AllPeopleQueryVariables>,
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<AllPeopleQuery, AllPeopleQueryVariables>(AllPeopleDocument, options);
+}
+export function useAllPeopleLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<AllPeopleQuery, AllPeopleQueryVariables>,
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<AllPeopleQuery, AllPeopleQueryVariables>(AllPeopleDocument, options);
+}
+export type AllPeopleQueryHookResult = ReturnType<typeof useAllPeopleQuery>;
+export type AllPeopleLazyQueryHookResult = ReturnType<typeof useAllPeopleLazyQuery>;
+export type AllPeopleQueryResult = Apollo.QueryResult<AllPeopleQuery, AllPeopleQueryVariables>;
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
 
@@ -456,48 +502,3 @@ export type Resolvers<ContextType = any> = {
 	Starship?: StarshipResolvers<ContextType>;
 	StarshipWithoutCrew?: StarshipWithoutCrewResolvers<ContextType>;
 };
-
-export const AllPeopleDocument = gql`
-	query AllPeople {
-		allPeople {
-			id
-			name
-			mass
-			starship {
-				id
-				name
-			}
-		}
-	}
-`;
-
-/**
- * __useAllPeopleQuery__
- *
- * To run a query within a React component, call `useAllPeopleQuery` and pass it any options that fit your needs.
- * When your component renders, `useAllPeopleQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useAllPeopleQuery({
- *   variables: {
- *   },
- * });
- */
-export function useAllPeopleQuery(
-	baseOptions?: Apollo.QueryHookOptions<AllPeopleQuery, AllPeopleQueryVariables>,
-) {
-	const options = { ...defaultOptions, ...baseOptions };
-	return Apollo.useQuery<AllPeopleQuery, AllPeopleQueryVariables>(AllPeopleDocument, options);
-}
-export function useAllPeopleLazyQuery(
-	baseOptions?: Apollo.LazyQueryHookOptions<AllPeopleQuery, AllPeopleQueryVariables>,
-) {
-	const options = { ...defaultOptions, ...baseOptions };
-	return Apollo.useLazyQuery<AllPeopleQuery, AllPeopleQueryVariables>(AllPeopleDocument, options);
-}
-export type AllPeopleQueryHookResult = ReturnType<typeof useAllPeopleQuery>;
-export type AllPeopleLazyQueryHookResult = ReturnType<typeof useAllPeopleLazyQuery>;
-export type AllPeopleQueryResult = Apollo.QueryResult<AllPeopleQuery, AllPeopleQueryVariables>;

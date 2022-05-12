@@ -10,6 +10,9 @@
   },
   "dependencies": {
     "@apollo/client": "^3.6.2",
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@mui/material": "^5.7.0",
     "@types/lodash": "^4.14.182",
     "eslint-config-next": "^12.1.6",
     "generated-shared": "0.0.4",

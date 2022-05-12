@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { ApolloClient, HttpLink, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
+import { PageProps } from '../pages/_app';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
@@ -17,7 +18,7 @@ function createApolloClient() {
 	});
 }
 
-export function initializeApollo(initialState = null) {
+export function initializeApollo(initialState: NormalizedCacheObject | null = null) {
 	const _apolloClient = apolloClient ?? createApolloClient();
 	if (initialState) {
 		const existingCache = _apolloClient.extract();
@@ -37,7 +38,11 @@ export function initializeApollo(initialState = null) {
 	return _apolloClient;
 }
 
-export function addApolloState(client: ApolloClient<NormalizedCacheObject>, pageProps: any) {
+export function addApolloState<
+	K extends keyof any,
+	P extends Record<K | typeof APOLLO_STATE_PROP_NAME, unknown>,
+	T extends { props: P },
+>(client: ApolloClient<NormalizedCacheObject>, pageProps: T) {
 	if (pageProps?.props) {
 		pageProps.props[APOLLO_STATE_PROP_NAME] = client.cache.extract();
 	}
@@ -45,7 +50,7 @@ export function addApolloState(client: ApolloClient<NormalizedCacheObject>, page
 	return pageProps;
 }
 
-export function useApollo(pageProps: any) {
+export function useApollo(pageProps: PageProps) {
 	const state = pageProps[APOLLO_STATE_PROP_NAME];
 	const store = useMemo(() => initializeApollo(state), [state]);
 	return store;
