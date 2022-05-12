@@ -1,0 +1,11 @@
+query AllPeople {
+  allPeople {
+    id
+    name
+    mass
+    starship {
+      id
+      name
+    }
+  }
+}

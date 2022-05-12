@@ -1,8 +1,11 @@
-schema: ['../../apps/api/src/schema.gql']
+schema: '../../apps/api/src/schema.gql'
+documents: '../../apps/web/**/*.gql'
 generates:
-  ./types/types.ts:
-    config:
-      useIndexSignature: true
+  ./generated.ts:
     plugins:
       - typescript
+      - typescript-operations
       - typescript-resolvers
+      - typescript-react-apollo
+    config:
+      withHooks: true

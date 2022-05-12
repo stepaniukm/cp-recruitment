@@ -794,6 +794,17 @@
     auto-bind "~4.0.0"
     tslib "~2.4.0"
 
+"@graphql-codegen/typescript-react-apollo@^3.2.14":
+  version "3.2.14"
+  resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-react-apollo/-/typescript-react-apollo-3.2.14.tgz#2506fab6bb17093b2d844be0577f1c755c7142ea"
+  integrity sha512-kqLrGSV+av1cMWjgkGpV2oD/JhKXzFZORBE+zqeKIwDk37fyj6P0DfRLTsLXoORFlQgBm5CN8k5aM9bQJHSVXg==
+  dependencies:
+    "@graphql-codegen/plugin-helpers" "^2.4.0"
+    "@graphql-codegen/visitor-plugin-common" "2.8.0"
+    auto-bind "~4.0.0"
+    change-case-all "1.0.14"
+    tslib "~2.4.0"
+
 "@graphql-codegen/typescript-resolvers@^2.6.4":
   version "2.6.4"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-resolvers/-/typescript-resolvers-2.6.4.tgz#857e24279603f4e8f7293385a90a1f2498eb672e"
@@ -3209,7 +3220,7 @@ concat-stream@^1.5.2:
 
 concurrently@^7.1.0:
   version "7.1.0"
-  resolved "https://registry.npmjs.org/concurrently/-/concurrently-7.1.0.tgz"
+  resolved "https://registry.yarnpkg.com/concurrently/-/concurrently-7.1.0.tgz#477b49b8cfc630bb491f9b02e9ed7fb7bff02942"
   integrity sha512-Bz0tMlYKZRUDqJlNiF/OImojMB9ruKUz6GCfmhFnSapXgPe+3xzY4byqoKG9tUZ7L2PGEUjfLPOLfIX3labnmw==
   dependencies:
     chalk "^4.1.0"

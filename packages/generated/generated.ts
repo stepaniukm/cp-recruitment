@@ -1,10 +1,13 @@
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
+const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
 	ID: string;
@@ -13,7 +16,6 @@ export type Scalars = {
 	Int: number;
 	Float: number;
 	/** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
-	DateTime: any;
 };
 
 export type AllPeopleInput = {
@@ -171,8 +173,18 @@ export type UpdateStarshipInput = {
 	name?: InputMaybe<Scalars['String']>;
 };
 
-export type WithIndex<TObject> = TObject & Record<string, any>;
-export type ResolversObject<TObject> = WithIndex<TObject>;
+export type AllPeopleQueryVariables = Exact<{ [key: string]: never }>;
+
+export type AllPeopleQuery = {
+	__typename?: 'Query';
+	allPeople: Array<{
+		__typename?: 'Person';
+		id: number;
+		name: string;
+		mass: number;
+		starship?: { __typename?: 'StarshipWithoutCrew'; id: number; name: string } | null;
+	}>;
+};
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
 
@@ -257,7 +269,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 ) => TResult | Promise<TResult>;
 
 /** Mapping between all available schema types and the resolvers types */
-export type ResolversTypes = ResolversObject<{
+export type ResolversTypes = {
 	AllPeopleInput: AllPeopleInput;
 	AllStarshipsInput: AllStarshipsInput;
 	Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
@@ -280,10 +292,10 @@ export type ResolversTypes = ResolversObject<{
 	String: ResolverTypeWrapper<Scalars['String']>;
 	UpdatePersonInput: UpdatePersonInput;
 	UpdateStarshipInput: UpdateStarshipInput;
-}>;
+};
 
 /** Mapping between all available schema types and the resolvers parents */
-export type ResolversParentTypes = ResolversObject<{
+export type ResolversParentTypes = {
 	AllPeopleInput: AllPeopleInput;
 	AllStarshipsInput: AllStarshipsInput;
 	Boolean: Scalars['Boolean'];
@@ -306,7 +318,7 @@ export type ResolversParentTypes = ResolversObject<{
 	String: Scalars['String'];
 	UpdatePersonInput: UpdatePersonInput;
 	UpdateStarshipInput: UpdateStarshipInput;
-}>;
+};
 
 export interface DateTimeScalarConfig
 	extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
@@ -316,7 +328,7 @@ export interface DateTimeScalarConfig
 export type MutationResolvers<
 	ContextType = any,
 	ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation'],
-> = ResolversObject<{
+> = {
 	createPerson?: Resolver<
 		ResolversTypes['Person'],
 		ParentType,
@@ -353,12 +365,12 @@ export type MutationResolvers<
 		ContextType,
 		RequireFields<MutationUpdateStarshipArgs, 'updateStarshipInput'>
 	>;
-}>;
+};
 
 export type PersonResolvers<
 	ContextType = any,
 	ParentType extends ResolversParentTypes['Person'] = ResolversParentTypes['Person'],
-> = ResolversObject<{
+> = {
 	createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
 	id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
 	mass?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
@@ -367,12 +379,12 @@ export type PersonResolvers<
 	starshipId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
 	updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
 	__isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
+};
 
 export type PersonWithoutStarshipResolvers<
 	ContextType = any,
 	ParentType extends ResolversParentTypes['PersonWithoutStarship'] = ResolversParentTypes['PersonWithoutStarship'],
-> = ResolversObject<{
+> = {
 	createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
 	id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
 	mass?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
@@ -380,12 +392,12 @@ export type PersonWithoutStarshipResolvers<
 	starshipId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
 	updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
 	__isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
+};
 
 export type QueryResolvers<
 	ContextType = any,
 	ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query'],
-> = ResolversObject<{
+> = {
 	allPeople?: Resolver<
 		Array<ResolversTypes['Person']>,
 		ParentType,
@@ -410,32 +422,32 @@ export type QueryResolvers<
 		ContextType,
 		RequireFields<QueryStarshipArgs, 'starshipInput'>
 	>;
-}>;
+};
 
 export type StarshipResolvers<
 	ContextType = any,
 	ParentType extends ResolversParentTypes['Starship'] = ResolversParentTypes['Starship'],
-> = ResolversObject<{
+> = {
 	createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
 	crew?: Resolver<Array<ResolversTypes['PersonWithoutStarship']>, ParentType, ContextType>;
 	id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
 	name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 	updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
 	__isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
+};
 
 export type StarshipWithoutCrewResolvers<
 	ContextType = any,
 	ParentType extends ResolversParentTypes['StarshipWithoutCrew'] = ResolversParentTypes['StarshipWithoutCrew'],
-> = ResolversObject<{
+> = {
 	createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
 	id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
 	name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 	updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
 	__isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
+};
 
-export type Resolvers<ContextType = any> = ResolversObject<{
+export type Resolvers<ContextType = any> = {
 	DateTime?: GraphQLScalarType;
 	Mutation?: MutationResolvers<ContextType>;
 	Person?: PersonResolvers<ContextType>;
@@ -443,4 +455,49 @@ export type Resolvers<ContextType = any> = ResolversObject<{
 	Query?: QueryResolvers<ContextType>;
 	Starship?: StarshipResolvers<ContextType>;
 	StarshipWithoutCrew?: StarshipWithoutCrewResolvers<ContextType>;
-}>;
+};
+
+export const AllPeopleDocument = gql`
+	query AllPeople {
+		allPeople {
+			id
+			name
+			mass
+			starship {
+				id
+				name
+			}
+		}
+	}
+`;
+
+/**
+ * __useAllPeopleQuery__
+ *
+ * To run a query within a React component, call `useAllPeopleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllPeopleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAllPeopleQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAllPeopleQuery(
+	baseOptions?: Apollo.QueryHookOptions<AllPeopleQuery, AllPeopleQueryVariables>,
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<AllPeopleQuery, AllPeopleQueryVariables>(AllPeopleDocument, options);
+}
+export function useAllPeopleLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<AllPeopleQuery, AllPeopleQueryVariables>,
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<AllPeopleQuery, AllPeopleQueryVariables>(AllPeopleDocument, options);
+}
+export type AllPeopleQueryHookResult = ReturnType<typeof useAllPeopleQuery>;
+export type AllPeopleLazyQueryHookResult = ReturnType<typeof useAllPeopleLazyQuery>;
+export type AllPeopleQueryResult = Apollo.QueryResult<AllPeopleQuery, AllPeopleQueryVariables>;

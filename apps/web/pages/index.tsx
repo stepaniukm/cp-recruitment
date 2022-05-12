@@ -1,25 +1,9 @@
-import { gql, useQuery } from '@apollo/client';
 import { GetServerSideProps } from 'next';
 import { addApolloState, initializeApollo } from '../lib/apolloClient';
-import { Query } from 'generated-shared';
-
-const GET_ALL_PEOPLE = gql`
-	query {
-		allPeople {
-			id
-			name
-			mass
-			starship {
-				id
-				name
-			}
-		}
-	}
-`;
+import { useAllPeopleQuery, AllPeopleDocument } from 'generated-shared';
 
 export default function Web() {
-	const { data } = useQuery<Pick<Query, 'allPeople'>>(GET_ALL_PEOPLE);
-	console.log(data);
+	const { data } = useAllPeopleQuery();
 
 	return (
 		<div>
@@ -41,7 +25,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 	const client = initializeApollo();
 
 	await client.query({
-		query: GET_ALL_PEOPLE,
+		query: AllPeopleDocument,
 	});
 
 	return addApolloState(client, {
