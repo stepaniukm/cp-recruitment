@@ -120,6 +120,8 @@ export type Query = {
 	allPeople: Array<Person>;
 	allStarships: Array<Starship>;
 	person: Person;
+	randomPerson: Person;
+	randomStarship: Starship;
 	starship: Starship;
 };
 
@@ -135,6 +137,14 @@ export type QueryPersonArgs = {
 	personInput: PersonInput;
 };
 
+export type QueryRandomPersonArgs = {
+	id: Scalars['Float'];
+};
+
+export type QueryRandomStarshipArgs = {
+	id: Scalars['Float'];
+};
+
 export type QueryStarshipArgs = {
 	starshipInput: StarshipInput;
 };
@@ -142,7 +152,7 @@ export type QueryStarshipArgs = {
 export type Starship = {
 	__typename?: 'Starship';
 	createdAt: Scalars['DateTime'];
-	crew: Array<PersonWithoutStarship>;
+	crew?: Maybe<Array<PersonWithoutStarship>>;
 	id: Scalars['Int'];
 	name: Scalars['String'];
 	updatedAt: Scalars['DateTime'];
@@ -174,63 +184,149 @@ export type UpdateStarshipInput = {
 	name?: InputMaybe<Scalars['String']>;
 };
 
-export type AllPeopleQueryVariables = Exact<{ [key: string]: never }>;
+export type TwoRandomPeopleQueryVariables = Exact<{ [key: string]: never }>;
 
-export type AllPeopleQuery = {
+export type TwoRandomPeopleQuery = {
 	__typename?: 'Query';
-	allPeople: Array<{
-		__typename?: 'Person';
-		id: number;
-		name: string;
-		mass: number;
-		starship?: { __typename?: 'StarshipWithoutCrew'; id: number; name: string } | null;
-	}>;
+	p1: { __typename?: 'Person'; id: number; name: string; mass: number };
+	p2: { __typename?: 'Person'; id: number; name: string; mass: number };
 };
 
-export const AllPeopleDocument = gql`
-	query AllPeople {
-		allPeople {
+export type TwoRandomStarshipsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TwoRandomStarshipsQuery = {
+	__typename?: 'Query';
+	p1: {
+		__typename?: 'Starship';
+		id: number;
+		name: string;
+		crew?: Array<{ __typename?: 'PersonWithoutStarship'; id: number }> | null;
+	};
+	p2: {
+		__typename?: 'Starship';
+		id: number;
+		name: string;
+		crew?: Array<{ __typename?: 'PersonWithoutStarship'; id: number }> | null;
+	};
+};
+
+export const TwoRandomPeopleDocument = gql`
+	query TwoRandomPeople {
+		p1: randomPerson(id: 1) {
 			id
 			name
 			mass
-			starship {
+		}
+		p2: randomPerson(id: 2) {
+			id
+			name
+			mass
+		}
+	}
+`;
+
+/**
+ * __useTwoRandomPeopleQuery__
+ *
+ * To run a query within a React component, call `useTwoRandomPeopleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTwoRandomPeopleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTwoRandomPeopleQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useTwoRandomPeopleQuery(
+	baseOptions?: Apollo.QueryHookOptions<TwoRandomPeopleQuery, TwoRandomPeopleQueryVariables>,
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<TwoRandomPeopleQuery, TwoRandomPeopleQueryVariables>(
+		TwoRandomPeopleDocument,
+		options,
+	);
+}
+export function useTwoRandomPeopleLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<TwoRandomPeopleQuery, TwoRandomPeopleQueryVariables>,
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<TwoRandomPeopleQuery, TwoRandomPeopleQueryVariables>(
+		TwoRandomPeopleDocument,
+		options,
+	);
+}
+export type TwoRandomPeopleQueryHookResult = ReturnType<typeof useTwoRandomPeopleQuery>;
+export type TwoRandomPeopleLazyQueryHookResult = ReturnType<typeof useTwoRandomPeopleLazyQuery>;
+export type TwoRandomPeopleQueryResult = Apollo.QueryResult<
+	TwoRandomPeopleQuery,
+	TwoRandomPeopleQueryVariables
+>;
+export const TwoRandomStarshipsDocument = gql`
+	query TwoRandomStarships {
+		p1: randomStarship(id: 1) {
+			id
+			name
+			crew {
 				id
-				name
+			}
+		}
+		p2: randomStarship(id: 2) {
+			id
+			name
+			crew {
+				id
 			}
 		}
 	}
 `;
 
 /**
- * __useAllPeopleQuery__
+ * __useTwoRandomStarshipsQuery__
  *
- * To run a query within a React component, call `useAllPeopleQuery` and pass it any options that fit your needs.
- * When your component renders, `useAllPeopleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useTwoRandomStarshipsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTwoRandomStarshipsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useAllPeopleQuery({
+ * const { data, loading, error } = useTwoRandomStarshipsQuery({
  *   variables: {
  *   },
  * });
  */
-export function useAllPeopleQuery(
-	baseOptions?: Apollo.QueryHookOptions<AllPeopleQuery, AllPeopleQueryVariables>,
+export function useTwoRandomStarshipsQuery(
+	baseOptions?: Apollo.QueryHookOptions<TwoRandomStarshipsQuery, TwoRandomStarshipsQueryVariables>,
 ) {
 	const options = { ...defaultOptions, ...baseOptions };
-	return Apollo.useQuery<AllPeopleQuery, AllPeopleQueryVariables>(AllPeopleDocument, options);
+	return Apollo.useQuery<TwoRandomStarshipsQuery, TwoRandomStarshipsQueryVariables>(
+		TwoRandomStarshipsDocument,
+		options,
+	);
 }
-export function useAllPeopleLazyQuery(
-	baseOptions?: Apollo.LazyQueryHookOptions<AllPeopleQuery, AllPeopleQueryVariables>,
+export function useTwoRandomStarshipsLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		TwoRandomStarshipsQuery,
+		TwoRandomStarshipsQueryVariables
+	>,
 ) {
 	const options = { ...defaultOptions, ...baseOptions };
-	return Apollo.useLazyQuery<AllPeopleQuery, AllPeopleQueryVariables>(AllPeopleDocument, options);
+	return Apollo.useLazyQuery<TwoRandomStarshipsQuery, TwoRandomStarshipsQueryVariables>(
+		TwoRandomStarshipsDocument,
+		options,
+	);
 }
-export type AllPeopleQueryHookResult = ReturnType<typeof useAllPeopleQuery>;
-export type AllPeopleLazyQueryHookResult = ReturnType<typeof useAllPeopleLazyQuery>;
-export type AllPeopleQueryResult = Apollo.QueryResult<AllPeopleQuery, AllPeopleQueryVariables>;
+export type TwoRandomStarshipsQueryHookResult = ReturnType<typeof useTwoRandomStarshipsQuery>;
+export type TwoRandomStarshipsLazyQueryHookResult = ReturnType<
+	typeof useTwoRandomStarshipsLazyQuery
+>;
+export type TwoRandomStarshipsQueryResult = Apollo.QueryResult<
+	TwoRandomStarshipsQuery,
+	TwoRandomStarshipsQueryVariables
+>;
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
 
@@ -462,6 +558,18 @@ export type QueryResolvers<
 		ContextType,
 		RequireFields<QueryPersonArgs, 'personInput'>
 	>;
+	randomPerson?: Resolver<
+		ResolversTypes['Person'],
+		ParentType,
+		ContextType,
+		RequireFields<QueryRandomPersonArgs, 'id'>
+	>;
+	randomStarship?: Resolver<
+		ResolversTypes['Starship'],
+		ParentType,
+		ContextType,
+		RequireFields<QueryRandomStarshipArgs, 'id'>
+	>;
 	starship?: Resolver<
 		ResolversTypes['Starship'],
 		ParentType,
@@ -475,7 +583,7 @@ export type StarshipResolvers<
 	ParentType extends ResolversParentTypes['Starship'] = ResolversParentTypes['Starship'],
 > = {
 	createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-	crew?: Resolver<Array<ResolversTypes['PersonWithoutStarship']>, ParentType, ContextType>;
+	crew?: Resolver<Maybe<Array<ResolversTypes['PersonWithoutStarship']>>, ParentType, ContextType>;
 	id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
 	name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 	updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;

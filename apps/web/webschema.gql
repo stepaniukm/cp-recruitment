@@ -1,11 +1,29 @@
-query AllPeople {
-  allPeople {
+query TwoRandomPeople {
+  p1: randomPerson(id: 1) {
     id
     name
     mass
-    starship {
+  }
+  p2: randomPerson(id: 2) {
+    id
+    name
+    mass
+  }
+}
+
+query TwoRandomStarships {
+  p1: randomStarship(id: 1) {
+    id
+    name
+    crew {
       id
-      name
+    }
+  }
+  p2: randomStarship(id: 2) {
+    id
+    name
+    crew {
+      id
     }
   }
 }

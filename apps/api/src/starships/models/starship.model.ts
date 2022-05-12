@@ -10,8 +10,8 @@ export class Starship extends TimeStamps {
   @Field()
   name: string;
 
-  @Field(() => [PersonWithoutStarship])
-  crew: PersonWithoutStarship[];
+  @Field(() => [PersonWithoutStarship], { nullable: true })
+  crew?: PersonWithoutStarship[];
 }
 
 @ObjectType()

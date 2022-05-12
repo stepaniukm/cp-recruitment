@@ -7,7 +7,7 @@ type Starship {
   updatedAt: DateTime!
   id: Int!
   name: String!
-  crew: [PersonWithoutStarship!]!
+  crew: [PersonWithoutStarship!]
 }
 
 """
@@ -44,8 +44,10 @@ type PersonWithoutStarship {
 type Query {
   allPeople(allPeopleInput: AllPeopleInput): [Person!]!
   person(personInput: PersonInput!): Person!
+  randomPerson(id: Float!): Person!
   allStarships(allStarshipsInput: AllStarshipsInput): [Starship!]!
   starship(starshipInput: StarshipInput!): Starship!
+  randomStarship(id: Float!): Starship!
 }
 
 input AllPeopleInput {

@@ -1,41 +1,38 @@
-import { GetServerSideProps } from 'next';
-import { addApolloState, initializeApollo } from '../lib/apolloClient';
-import { useAllPeopleQuery, AllPeopleDocument } from 'generated-shared';
-import type { ReactElement } from 'react';
+import { ReactElement, useState } from 'react';
 import { FullPageLayout } from '../components/FullPageLayout.tsx/FullPageLayout';
-import Grid from '@mui/material/Grid';
+import Link from 'next/link';
+import Box from '@mui/material/Box';
+import StyledLink from '@mui/material/Link';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
 
-export default function Web() {
-	const { data } = useAllPeopleQuery();
-
+const choices = ['starships', 'people'] as const;
+type GameChoice = typeof choices[number];
+export default function Index() {
+	const [choice, setChoice] = useState<GameChoice>('starships');
 	return (
-		<Grid container spacing={2}>
-			<Grid item xs={2}>
-				<h1>Web</h1>
-			</Grid>
-			<Grid item xs={10}>
-				{data?.allPeople.map(({ id, name, mass, starship }) => (
-					<li key={id}>
-						{name}
-						{mass}
-						{starship?.name}
-					</li>
-				))}
-			</Grid>
-		</Grid>
+		<Box
+			width="100%"
+			height="100%"
+			display="flex"
+			justifyContent="center"
+			alignItems="center"
+			flexDirection="column"
+		>
+			<InputLabel>
+				<Select value={choice} onChange={(e) => setChoice(e.target.value as GameChoice)}>
+					<MenuItem value="starships">Starships</MenuItem>
+					<MenuItem value="people">People</MenuItem>
+				</Select>
+			</InputLabel>
+			<Link href={`/${choice}`} passHref>
+				<StyledLink variant="button" fontSize={20}>
+					Play
+				</StyledLink>
+			</Link>
+		</Box>
 	);
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-	const client = initializeApollo();
-
-	await client.query({
-		query: AllPeopleDocument,
-	});
-
-	return addApolloState(client, {
-		props: {},
-	});
-};
-
-Web.getLayout = (page: ReactElement) => <FullPageLayout>{page}</FullPageLayout>;
+Index.getLayout = (page: ReactElement) => <FullPageLayout>{page}</FullPageLayout>;

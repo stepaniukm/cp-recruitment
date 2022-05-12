@@ -33,6 +33,18 @@ export class StarshipsResolver {
     });
   }
 
+  @Query(() => Starship)
+  async randomStarship(@Args('id') id: number) {
+    const count = await this.db.starship.count();
+    const random = Math.floor(Math.random() * count) + id - id;
+
+    return this.db.starship.findFirst({
+      skip: random,
+      take: 1,
+      include: { crew: true },
+    });
+  }
+
   @Mutation(() => Starship)
   async createStarship(
     @Args('createStarshipInput') { name, crew }: CreateStarshipInput,

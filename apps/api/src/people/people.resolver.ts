@@ -33,6 +33,18 @@ export class PeopleResolver {
     });
   }
 
+  @Query(() => Person)
+  async randomPerson(@Args('id') id: number) {
+    const count = await this.db.person.count();
+    const random = Math.floor(Math.random() * count) + id - id;
+
+    return this.db.person.findFirst({
+      skip: random,
+      take: 1,
+      include: { starship: true },
+    });
+  }
+
   @Mutation(() => Person)
   async createPerson(
     @Args('createPersonInput') { name, mass, starshipId }: CreatePersonInput,
