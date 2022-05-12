@@ -1,4 +1,5 @@
 import { ApolloProvider, NormalizedCacheObject } from '@apollo/client';
+import CssBaseline from '@mui/material/CssBaseline';
 import { APOLLO_STATE_PROP_NAME, useApollo } from '../lib/apolloClient';
 import { BetterAppProps } from '../lib/types';
 
@@ -9,9 +10,12 @@ export type PageProps = {
 export default function App({ Component, pageProps }: BetterAppProps<PageProps>) {
 	const apolloClient = useApollo(pageProps);
 
-	return (
+	const getLayout = Component.getLayout ?? ((page) => page);
+
+	return getLayout(
 		<ApolloProvider client={apolloClient}>
+			<CssBaseline />
 			<Component {...pageProps} />
-		</ApolloProvider>
+		</ApolloProvider>,
 	);
 }

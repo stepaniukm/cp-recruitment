@@ -1,14 +1,19 @@
 import { GetServerSideProps } from 'next';
 import { addApolloState, initializeApollo } from '../lib/apolloClient';
 import { useAllPeopleQuery, AllPeopleDocument } from 'generated-shared';
+import type { ReactElement } from 'react';
+import { FullPageLayout } from '../components/FullPageLayout.tsx/FullPageLayout';
+import Grid from '@mui/material/Grid';
 
 export default function Web() {
 	const { data } = useAllPeopleQuery();
 
 	return (
-		<div>
-			<h1>Web</h1>
-			<ul>
+		<Grid container spacing={2}>
+			<Grid item xs={2}>
+				<h1>Web</h1>
+			</Grid>
+			<Grid item xs={10}>
 				{data?.allPeople.map(({ id, name, mass, starship }) => (
 					<li key={id}>
 						{name}
@@ -16,8 +21,8 @@ export default function Web() {
 						{starship?.name}
 					</li>
 				))}
-			</ul>
-		</div>
+			</Grid>
+		</Grid>
 	);
 }
 
@@ -32,3 +37,5 @@ export const getServerSideProps: GetServerSideProps = async () => {
 		props: {},
 	});
 };
+
+Web.getLayout = (page: ReactElement) => <FullPageLayout>{page}</FullPageLayout>;
