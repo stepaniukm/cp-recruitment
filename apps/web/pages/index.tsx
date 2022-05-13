@@ -1,5 +1,5 @@
 import { ReactElement, useState } from 'react';
-import { FullPageLayout } from '../components/FullPageLayout.tsx/FullPageLayout';
+import { FullPageLayout } from '../components/FullPageLayout';
 import Link from 'next/link';
 import Box from '@mui/material/Box';
 import StyledLink from '@mui/material/Link';

@@ -1,12 +1,12 @@
 import Typography from '@mui/material/Typography';
-import { TwoRandomStarshipsDocument, useTwoRandomStarshipsQuery } from 'generated-shared';
+import { TwoRandomPeopleDocument, useTwoRandomPeopleQuery } from 'generated-shared';
 import { ReactElement } from 'react';
 import { FullPageLayout } from '../components/FullPageLayout';
 import { addApolloState, initializeApollo } from '../lib/apolloClient';
 import Game from '../components/Game';
 
 export default function Starships() {
-	const { data, fetchMore: tryAgain, loading } = useTwoRandomStarshipsQuery();
+	const { data, fetchMore: tryAgain, loading } = useTwoRandomPeopleQuery();
 
 	const onTryAgain = async () => {
 		await tryAgain({});
@@ -15,13 +15,13 @@ export default function Starships() {
 	return (
 		<Game
 			data={data}
-			getCardContent={(starship) => (
+			getCardContent={(person) => (
 				<>
-					<Typography>Starship name: {starship.name}</Typography>
-					<Typography>Crew: {starship.crew?.length}</Typography>
+					<Typography>Person name: {person.name}</Typography>
+					<Typography>Mass: {person.mass}</Typography>
 				</>
 			)}
-			getComparingField={(starship) => starship.crew?.length ?? 0}
+			getComparingField={(starship) => starship.mass ?? 0}
 			loading={loading}
 			onTryAgain={onTryAgain}
 		></Game>
@@ -32,7 +32,7 @@ export const getServerSideProps = async () => {
 	const apolloClient = initializeApollo();
 
 	await apolloClient.query({
-		query: TwoRandomStarshipsDocument,
+		query: TwoRandomPeopleDocument,
 	});
 
 	return addApolloState(apolloClient, {
