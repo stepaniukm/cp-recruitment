@@ -11,6 +11,7 @@ import { colors } from '@mui/material';
 import Box from '@mui/system/Box';
 import { betterEntries } from '../lib/helpers';
 import Link from 'next/link';
+import { APP_STRING } from '../lib/constants';
 
 type Result = number | 'draw' | 'loading';
 type RandomQuery = TwoRandomStarshipsQuery | TwoRandomPeopleQuery;
@@ -89,7 +90,7 @@ export default function Game<T extends RandomQuery>({
 					const outlineColor = getOutlineColor(result, typedValue.id);
 
 					return (
-						<Grid item xs={4} key={typedKey}>
+						<Grid item xs={4} key={typedKey} data-testid={'player-' + typedKey}>
 							<Typography fontSize={25}>
 								Score({typedKey.toUpperCase()}): {score[typedKey]}
 							</Typography>
@@ -106,25 +107,33 @@ export default function Game<T extends RandomQuery>({
 								alignItems="center"
 								marginTop={2}
 							>
-								{result === typedValue.id && <Typography fontSize={20}>^^^Winner^^^</Typography>}
+								{result === typedValue.id && (
+									<Typography fontSize={20} data-testid={'score-' + typedKey}>
+										{APP_STRING.WIN}
+									</Typography>
+								)}
 							</Box>
 						</Grid>
 					);
 				})}
 			</Grid>
 			<Grid container item justifyContent="center" marginY={1} height={5}>
-				{result === 'draw' && <Typography fontSize={25}>Draw</Typography>}
+				{result === 'draw' && (
+					<Typography fontSize={25} data-testid={'draw'}>
+						{APP_STRING.DRAW}
+					</Typography>
+				)}
 			</Grid>
 			<Grid container item alignItems="center" justifyContent="center" height={10} width="100%">
 				<Grid container item marginTop={5} justifyContent="center">
 					<Button variant="contained" color="primary" size="large" onClick={onTryAgain}>
-						Try again
+						{APP_STRING.TRY_AGAIN}
 					</Button>
 				</Grid>
 				<Grid container item marginTop={5} justifyContent="center">
 					<Link href="/">
 						<Button variant="contained" color="secondary" size="large">
-							Go to the main page
+							{APP_STRING.GO_HOME}
 						</Button>
 					</Link>
 				</Grid>
