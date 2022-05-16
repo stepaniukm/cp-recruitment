@@ -3,7 +3,7 @@ import { TwoRandomPeopleDocument, useTwoRandomPeopleQuery } from 'generated-shar
 import { ReactElement } from 'react';
 import { FullPageLayout } from '../components/FullPageLayout';
 import { addApolloState, initializeApollo } from '../lib/apolloClient';
-import Game from '../components/Game';
+import Game from '../components/Game/Game';
 
 export default function Starships() {
 	const { data, fetchMore: tryAgain, loading } = useTwoRandomPeopleQuery();

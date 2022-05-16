@@ -9,9 +9,9 @@ import Button from '@mui/material/Button';
 import _omit from 'lodash/omit';
 import { colors } from '@mui/material';
 import Box from '@mui/system/Box';
-import { betterEntries } from '../lib/helpers';
+import { betterEntries } from '../../lib/helpers';
+import { APP_STRING } from '../../lib/constants';
 import Link from 'next/link';
-import { APP_STRING } from '../lib/constants';
 
 type Result = number | 'draw' | 'loading';
 type RandomQuery = TwoRandomStarshipsQuery | TwoRandomPeopleQuery;

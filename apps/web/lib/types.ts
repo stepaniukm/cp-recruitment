@@ -10,6 +10,6 @@ type AppPropsWithLayout<T> = AppProps<T> & {
 	Component: NextPageWithLayout;
 };
 
-export type BetterAppProps<P = any> = {
+export type BetterAppProps<P> = {
 	pageProps: P;
 } & Omit<AppPropsWithLayout<P>, 'pageProps'>;
