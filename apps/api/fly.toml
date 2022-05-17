@@ -1,12 +1,14 @@
-# fly.toml file generated for cp-recruitment-ai on 2022-05-16T19:55:19+02:00
+# fly.toml file generated for cp-recruitment-api on 2022-05-17T10:20:32+02:00
 
-app = "cp-recruitment-ai"
+app = "cp-recruitment-api"
 
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
 
 [env]
+  NODE_ENV = "production"
+  PORT = 8080
 
 [experimental]
   allowed_public_ports = []
