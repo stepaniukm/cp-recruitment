@@ -7,7 +7,6 @@ import { PageProps } from '../pages/_app';
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
 let apolloClient: ApolloClient<NormalizedCacheObject>;
-
 function createApolloClient() {
 	return new ApolloClient({
 		ssrMode: typeof window === 'undefined',

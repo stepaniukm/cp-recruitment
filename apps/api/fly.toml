@@ -1,4 +1,4 @@
-# fly.toml file generated for cp-recruitment-api on 2022-05-17T10:20:32+02:00
+# fly.toml file generated for cp-recruitment-api on 2022-05-17T14:47:06+02:00
 
 app = "cp-recruitment-api"
 

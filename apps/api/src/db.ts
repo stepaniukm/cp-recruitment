@@ -6,8 +6,15 @@ export const DB_KEY = Symbol('DB');
 
 export const dbProvider: FactoryProvider = {
   provide: DB_KEY,
-  useFactory: async () => {
-    const db = new PrismaClient();
+  useFactory: async (configService: ConfigService) => {
+    const dbUrl = configService.get<string>('DATABASE_URL');
+    const db = new PrismaClient({
+      datasources: {
+        db: {
+          url: dbUrl,
+        },
+      },
+    });
 
     return db;
   },

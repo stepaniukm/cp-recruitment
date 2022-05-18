@@ -17,7 +17,7 @@ export class PeopleResolver {
     @Args('allPeopleInput', { nullable: true })
     { page, perPage, search, mass }: AllPeopleInput = { page: 1, perPage: 10 },
   ) {
-    return this.db.person.findMany({
+    return await this.db.person.findMany({
       skip: (page - 1) * perPage,
       take: perPage,
       where: { name: { search }, mass },
@@ -27,7 +27,7 @@ export class PeopleResolver {
 
   @Query(() => Person)
   async person(@Args('personInput') { id, search }: PersonInput) {
-    return this.db.person.findFirst({
+    return await this.db.person.findFirst({
       where: { id, name: { search } },
       include: { starship: true },
     });
@@ -38,7 +38,7 @@ export class PeopleResolver {
     const count = await this.db.person.count();
     const random = Math.floor(Math.random() * count) + id - id;
 
-    return this.db.person.findFirst({
+    return await this.db.person.findFirst({
       skip: random,
       take: 1,
       include: { starship: true },
@@ -49,7 +49,7 @@ export class PeopleResolver {
   async createPerson(
     @Args('createPersonInput') { name, mass, starshipId }: CreatePersonInput,
   ) {
-    return this.db.person.create({
+    return await this.db.person.create({
       data: { name, mass, starshipId },
       include: { starship: true },
     });
@@ -60,7 +60,7 @@ export class PeopleResolver {
     @Args('updatePersonInput')
     { name, mass, starshipId, id }: UpdatePersonInput,
   ) {
-    return this.db.person.update({
+    return await this.db.person.update({
       data: { name, mass, starshipId },
       where: { id },
       include: { starship: true },
@@ -72,7 +72,7 @@ export class PeopleResolver {
     @Args('deletePersonInput')
     { id }: DeletePersonInput,
   ) {
-    return this.db.person.delete({
+    return await this.db.person.delete({
       where: { id },
       include: { starship: true },
     });

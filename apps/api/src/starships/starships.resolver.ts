@@ -1,6 +1,6 @@
 import { CreateStarshipInput } from './models/createStarship.input';
 import { StarshipInput } from './models/starship.input';
-import { Inject } from '@nestjs/common';
+import { Inject, Logger, LoggerService } from '@nestjs/common';
 import { Args, Mutation, Resolver, Query } from '@nestjs/graphql';
 import { DB_KEY, DB } from 'src/db';
 import { AllStarshipsInput } from './models/allStarships.input';
@@ -17,7 +17,7 @@ export class StarshipsResolver {
     @Args('allStarshipsInput', { nullable: true })
     { page, perPage, search }: AllStarshipsInput = { page: 1, perPage: 10 },
   ) {
-    return this.db.starship.findMany({
+    return await this.db.starship.findMany({
       skip: (page - 1) * perPage,
       take: perPage,
       where: { name: { search } },
@@ -27,7 +27,7 @@ export class StarshipsResolver {
 
   @Query(() => Starship)
   async starship(@Args('starshipInput') { id, search }: StarshipInput) {
-    return this.db.starship.findFirst({
+    return await this.db.starship.findFirst({
       where: { id, name: { search } },
       include: { crew: true },
     });
@@ -38,7 +38,7 @@ export class StarshipsResolver {
     const count = await this.db.starship.count();
     const random = Math.floor(Math.random() * count) + id - id;
 
-    return this.db.starship.findFirst({
+    return await this.db.starship.findFirst({
       skip: random,
       take: 1,
       include: { crew: true },
@@ -51,7 +51,7 @@ export class StarshipsResolver {
   ) {
     const connect = crew.map((person) => ({ id: person.id }));
 
-    return this.db.starship.create({
+    return await this.db.starship.create({
       data: { name, crew: { connect } },
       include: { crew: true },
     });
@@ -64,7 +64,7 @@ export class StarshipsResolver {
   ) {
     const connect = crew.map((person) => ({ id: person.id }));
 
-    return this.db.starship.update({
+    return await this.db.starship.update({
       data: { name, crew: { connect } },
       where: { id },
       include: { crew: true },
@@ -76,7 +76,7 @@ export class StarshipsResolver {
     @Args('deleteStarshipInput')
     { id }: DeleteStarshipInput,
   ) {
-    return this.db.starship.delete({
+    return await this.db.starship.delete({
       where: { id },
       include: { crew: true },
     });
