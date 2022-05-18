@@ -28,14 +28,14 @@ export default function Starships() {
 	);
 }
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
 	const apolloClient = initializeApollo();
 
 	await apolloClient.query({
 		query: TwoRandomPeopleDocument,
 	});
 
-	return addApolloState(apolloClient, {
+	return addApolloState('static', apolloClient, {
 		props: {},
 	});
 };
