@@ -43,18 +43,20 @@ const STARSHIP_GROUPS = 10;
           },
         );
 
-        return client.starship.create({
-          data: {
-            name: faker.vehicle.model(),
-            crew: {
-              connect: crew.map(({ id }) => ({ id })),
-            },
+        return {
+          name: `${faker.animal.horse}-${faker.vehicle.model()}`,
+          crew: {
+            connect: crew.map(({ id }) => ({ id })),
           },
-        });
+        };
       },
     );
 
-    const starships = await client.$transaction(randomCreateStarshipsEntries);
+    const starships = await client.$transaction(
+      randomCreateStarshipsEntries.map((data) =>
+        client.starship.create({ data, include: { crew: true } }),
+      ),
+    );
   } catch (e) {
     console.log('There was an error during seed');
   }
