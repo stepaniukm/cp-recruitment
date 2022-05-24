@@ -16,5 +16,28 @@
       "rootDir": ["apps/*/"]
     }
   },
-  "rules": {}
+  "overrides": [
+    {
+      "files": ["*.graphql", "*.gql"],
+      "parser": "@graphql-eslint/eslint-plugin",
+      "plugins": ["@graphql-eslint"],
+      "rules": {
+        "@graphql-eslint/known-type-names": "error"
+      },
+      "parserOptions": {
+        "operations": "./apps/web/**/*.gql",
+        "schema": "./apps/api/src/schema.gql"
+      }
+    },
+    {
+      "files": ["*.graphql", "*.gql"],
+      "rules": {
+        "prettier/prettier": "off"
+      }
+    }
+  ],
+  "rules": {
+    "no-unused-vars": ["off"],
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+  }
 }

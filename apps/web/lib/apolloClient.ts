@@ -4,7 +4,6 @@ import { ApolloClient, HttpLink, InMemoryCache, NormalizedCacheObject } from '@a
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
 import { PageProps } from '../pages/_app';
-import { GetServerSidePropsResult, GetStaticPropsResult, Redirect } from 'next';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
@@ -40,13 +39,13 @@ export function initializeApollo(initialState: NormalizedCacheObject | null = nu
 }
 
 export function addApolloState<
-	Key extends keyof any,
+	Key extends string | number | symbol,
 	Props extends Record<Key | typeof APOLLO_STATE_PROP_NAME, unknown>,
 	Type extends 'static' | 'server',
 	Result extends Type extends 'static'
 		? BetterGetStaticPropsResult<Props>
 		: BetterGetServerSidePropsResult<Props>,
->(type: Type, client: ApolloClient<NormalizedCacheObject>, pageResult: Result) {
+>(_: Type, client: ApolloClient<NormalizedCacheObject>, pageResult: Result) {
 	return {
 		...pageResult,
 		props: {

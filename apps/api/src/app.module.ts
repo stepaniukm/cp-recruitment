@@ -7,6 +7,7 @@ import { dbProvider, DB_KEY } from './db';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { StarshipsModule } from './starships/starships.module';
+import { DateTimeResolver, DateTimeTypeDefinition } from 'graphql-scalars';
 
 @Global()
 @Module({
@@ -22,6 +23,8 @@ import { StarshipsModule } from './starships/starships.module';
       }),
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
+      typeDefs: [DateTimeTypeDefinition],
+      resolvers: { DateTime: DateTimeResolver },
       driver: ApolloDriver,
       playground: true,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),

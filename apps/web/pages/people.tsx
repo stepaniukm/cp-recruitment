@@ -4,6 +4,7 @@ import { ReactElement } from 'react';
 import { FullPageLayout } from '../components/FullPageLayout';
 import { addApolloState, initializeApollo } from '../lib/apolloClient';
 import Game from '../components/Game/Game';
+import Head from 'next/head';
 
 export default function Starships() {
 	const { data, fetchMore: tryAgain, loading } = useTwoRandomPeopleQuery();
@@ -13,18 +14,23 @@ export default function Starships() {
 	};
 
 	return (
-		<Game
-			data={data}
-			getCardContent={(person) => (
-				<>
-					<Typography>Person name: {person.name}</Typography>
-					<Typography>Mass: {person.mass}</Typography>
-				</>
-			)}
-			getComparingField={(starship) => starship.mass ?? 0}
-			loading={loading}
-			onTryAgain={onTryAgain}
-		></Game>
+		<>
+			<Head>
+				<title>People game</title>
+			</Head>
+			<Game
+				data={data}
+				getCardContent={(person) => (
+					<>
+						<Typography>Person name: {person.name}</Typography>
+						<Typography>Mass: {person.mass}</Typography>
+					</>
+				)}
+				getComparingField={(starship) => starship.mass ?? 0}
+				loading={loading}
+				onTryAgain={onTryAgain}
+			></Game>
+		</>
 	);
 }
 
@@ -37,6 +43,7 @@ export const getStaticProps = async () => {
 
 	return addApolloState('static', apolloClient, {
 		props: {},
+		revalidate: 1,
 	});
 };
 

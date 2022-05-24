@@ -32,8 +32,8 @@ const getOutlineColor = (winner: Result, id: number) => {
 type Props<T extends RandomQuery> = {
 	data: T | undefined;
 	loading: boolean;
-	getComparingField: (data: T['p1']) => number;
-	getCardContent: (data: T['p1']) => ReactElement;
+	getComparingField: (data: T['p1'] | T['p2']) => number;
+	getCardContent: (data: T['p1'] | T['p2']) => ReactElement;
 	onTryAgain: () => Promise<void>;
 };
 
@@ -85,7 +85,7 @@ export default function Game<T extends RandomQuery>({
 				{betterEntries(_omit(data, '__typename')).map(([key, value]) => {
 					// Object.entries is dumb so here I have to fix typings like this
 					const typedKey = key as keyof typeof score;
-					const typedValue = value as unknown as T['p1'];
+					const typedValue = value as T['p1'] | T['p2'];
 
 					const outlineColor = getOutlineColor(result, typedValue.id);
 

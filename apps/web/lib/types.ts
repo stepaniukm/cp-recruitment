@@ -1,4 +1,4 @@
-import type { GetServerSidePropsResult, NextPage, Redirect } from 'next';
+import type { NextPage, Redirect } from 'next';
 import type { AppProps } from 'next/app';
 import type { ReactElement, ReactNode } from 'react';
 

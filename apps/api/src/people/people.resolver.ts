@@ -34,9 +34,9 @@ export class PeopleResolver {
   }
 
   @Query(() => Person)
-  async randomPerson(@Args('id') id: number) {
+  async randomPerson(@Args('id') _id: number) {
     const count = await this.db.person.count();
-    const random = Math.floor(Math.random() * count) + id - id;
+    const random = Math.floor(Math.random() * count);
 
     return await this.db.person.findFirst({
       skip: random,

@@ -4,6 +4,7 @@ import { ReactElement } from 'react';
 import { FullPageLayout } from '../components/FullPageLayout';
 import { addApolloState, initializeApollo } from '../lib/apolloClient';
 import Game from '../components/Game/Game';
+import Head from 'next/head';
 
 export default function Starships() {
 	const { data, fetchMore: tryAgain, loading } = useTwoRandomStarshipsQuery();
@@ -13,18 +14,23 @@ export default function Starships() {
 	};
 
 	return (
-		<Game
-			data={data}
-			getCardContent={(starship) => (
-				<>
-					<Typography>Starship name: {starship.name}</Typography>
-					<Typography>Crew: {starship.crew?.length}</Typography>
-				</>
-			)}
-			getComparingField={(starship) => starship.crew?.length ?? 0}
-			loading={loading}
-			onTryAgain={onTryAgain}
-		></Game>
+		<>
+			<Head>
+				<title>Starships game</title>
+			</Head>
+			<Game
+				data={data}
+				getCardContent={(starship) => (
+					<>
+						<Typography>Starship name: {starship.name}</Typography>
+						<Typography>Crew: {starship.crew?.length}</Typography>
+					</>
+				)}
+				getComparingField={(starship) => starship.crew?.length ?? 0}
+				loading={loading}
+				onTryAgain={onTryAgain}
+			></Game>
+		</>
 	);
 }
 
@@ -37,6 +43,7 @@ export const getStaticProps = async () => {
 
 	return addApolloState('static', apolloClient, {
 		props: {},
+		revalidate: 1,
 	});
 };
 

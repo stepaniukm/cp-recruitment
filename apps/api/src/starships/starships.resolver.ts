@@ -1,6 +1,6 @@
 import { CreateStarshipInput } from './models/createStarship.input';
 import { StarshipInput } from './models/starship.input';
-import { Inject, Logger, LoggerService } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
 import { Args, Mutation, Resolver, Query } from '@nestjs/graphql';
 import { DB_KEY, DB } from 'src/db';
 import { AllStarshipsInput } from './models/allStarships.input';
@@ -34,9 +34,9 @@ export class StarshipsResolver {
   }
 
   @Query(() => Starship)
-  async randomStarship(@Args('id') id: number) {
+  async randomStarship(@Args('id') _id: number) {
     const count = await this.db.starship.count();
-    const random = Math.floor(Math.random() * count) + id - id;
+    const random = Math.floor(Math.random() * count);
 
     return await this.db.starship.findFirst({
       skip: random,

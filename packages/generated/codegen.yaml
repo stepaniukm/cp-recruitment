@@ -9,3 +9,8 @@ generates:
       - typescript-resolvers
     config:
       withHooks: true
+      scalars:
+        DateTime: string
+    hooks:
+      afterOneFileWrite:
+        - eslint --fix

@@ -27,7 +27,7 @@ const STARSHIP_GROUPS = 10;
     );
 
     const randomCreateStarshipsEntries = Array.from(
-      { length: 10 },
+      { length: STARSHIP_GROUPS },
       (_, starshipIndex) => {
         const randomCapacity = faker.datatype.number({
           min: 1,
@@ -52,7 +52,7 @@ const STARSHIP_GROUPS = 10;
       },
     );
 
-    const starships = await client.$transaction(
+    await client.$transaction(
       randomCreateStarshipsEntries.map((data) =>
         client.starship.create({ data, include: { crew: true } }),
       ),

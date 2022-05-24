@@ -3,15 +3,23 @@
   "version": "0.0.1",
   "private": true,
   "workspaces": {
-    "packages": ["apps/*", "packages/*"],
-    "nohoist": ["**/@nestjs", "**/@nestjs/**"]
+    "packages": [
+      "apps/*",
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/@nestjs",
+      "**/@nestjs/**"
+    ]
   },
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
-    "lint": "turbo run lint"
+    "lint": "turbo run lint",
+    "test": "turbo run test --parallel"
   },
   "devDependencies": {
+    "@graphql-eslint/eslint-plugin": "^3.10.3",
     "@typescript-eslint/eslint-plugin": "^5.23.0",
     "@typescript-eslint/parser": "^5.23.0",
     "eslint": "^8.15.0",
